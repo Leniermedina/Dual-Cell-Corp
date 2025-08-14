@@ -992,6 +992,12 @@
         
         // Función para agregar producto al carrito
         function addToCart(productName, quantity = 1) {
+            // Validar que la cantidad sea al menos 1
+            if (quantity < 1) {
+                showNotification('Por favor, selecciona una cantidad válida (mínimo 1)');
+                return;
+            }
+            
             // Buscar si el producto ya está en el carrito
             const existingItem = cart.find(item => item.name === productName);
             
@@ -1194,7 +1200,7 @@
                             <div class="product-price">$${precio.toFixed(2)}</div>
                             <div class="quantity-controls">
                                 <button class="quantity-btn minus-btn">-</button>
-                                <input type="number" class="quantity-input" value="1" min="1">
+                                <input type="number" class="quantity-input" value="0" min="0">
                                 <button class="quantity-btn plus-btn">+</button>
                             </div>
                             <button class="add-to-cart-btn" data-name="${producto.nombre}">
@@ -1220,7 +1226,7 @@
                             <div class="product-price">$${precio.toFixed(2)}</div>
                             <div class="quantity-controls">
                                 <button class="quantity-btn minus-btn">-</button>
-                                <input type="number" class="quantity-input" value="1" min="1">
+                                <input type="number" class="quantity-input" value="0" min="0">
                                 <button class="quantity-btn plus-btn">+</button>
                             </div>
                             <button class="add-to-cart-btn" data-name="${producto.nombre}">
@@ -1246,7 +1252,7 @@
                             <div class="product-price">$${precio.toFixed(2)}</div>
                             <div class="quantity-controls">
                                 <button class="quantity-btn minus-btn">-</button>
-                                <input type="number" class="quantity-input" value="1" min="1">
+                                <input type="number" class="quantity-input" value="0" min="0">
                                 <button class="quantity-btn plus-btn">+</button>
                             </div>
                             <button class="add-to-cart-btn" data-name="${producto.nombre}">
@@ -1303,7 +1309,7 @@
                 // Botones de cantidad (+/-)
                 if (e.target.classList.contains('minus-btn')) {
                     const input = e.target.nextElementSibling;
-                    if (input.value > 1) {
+                    if (input.value > 0) {
                         input.value = parseInt(input.value) - 1;
                     }
                 } else if (e.target.classList.contains('plus-btn')) {
@@ -1317,8 +1323,8 @@
                     const quantityInput = e.target.previousElementSibling.querySelector('.quantity-input');
                     const quantity = parseInt(quantityInput.value);
                     
-                    // Restablecer cantidad a 1 después de agregar
-                    quantityInput.value = 1;
+                    // Restablecer cantidad a 0 después de agregar
+                    quantityInput.value = 0;
                     
                     addToCart(productName, quantity);
                 }
@@ -1327,8 +1333,8 @@
             // Validar inputs de cantidad
             document.addEventListener('input', function(e) {
                 if (e.target.classList.contains('quantity-input')) {
-                    if (e.target.value < 1) {
-                        e.target.value = 1;
+                    if (e.target.value < 0) {
+                        e.target.value = 0;
                     }
                 }
             });
